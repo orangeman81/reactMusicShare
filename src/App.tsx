@@ -1,4 +1,4 @@
-import { Subject } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { ajax } from 'rxjs/ajax';
 import { debounceTime, distinctUntilChanged, switchMap, first, pluck } from 'rxjs/operators';
 import React, { Component } from 'react';
@@ -25,11 +25,12 @@ class App extends Component {
     query: ""
   }
 
+  sub: Subscription = new Subscription();
   $search: Subject<string> = new Subject();
 
   constructor(props: any) {
     super(props)
-    this.$search
+    this.sub = this.$search
       .pipe(
         debounceTime(600),
         distinctUntilChanged(),
@@ -56,16 +57,6 @@ class App extends Component {
       })
   }
 
-  addCard(card: any) {
-    this.setState({
-      ...this.state,
-      data: [
-        ...this.state.data,
-        card
-      ]
-    })
-  }
-
   searchInput = (event: any) => {
     this.$search.next(event.target.value);
   }
@@ -79,14 +70,17 @@ class App extends Component {
         <main>
           {
             this.state.data.map((card, i) => {
-              return <Card key={i} title={card.title} artist={card.artist.name} media={card.album.cover_medium}>
+              return <Card key={i} title={card.title} artist={card.artist.name} image={card.album.cover_medium}>
               </Card>
             })
           }
-          <button onClick={this.addCard.bind(this, { title: "new card", description: "new description" })}>new card</button>
         </main>
       </div>
     );
+  }
+
+  componentWillUnmount() {
+    this.sub.unsubscribe();
   }
 
 }

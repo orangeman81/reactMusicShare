@@ -9,7 +9,7 @@ import SkipPreviousIcon from '@material-ui/icons/SkipPrevious';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import SkipNextIcon from '@material-ui/icons/SkipNext';
 
-const MediaCard: React.FC<{ title: string, artist: string, media: any }> = ({ title, artist, media }) => {
+const MediaCard: React.FC<{ title: string, artist: string, image: string }> = ({ title, artist, image }) => {
     const useStyles = makeStyles(theme => ({
         card: {
             display: 'flex',
@@ -65,7 +65,7 @@ const MediaCard: React.FC<{ title: string, artist: string, media: any }> = ({ ti
             </div>
             <CardMedia
                 className={classes.cover}
-                image={media}
+                image={image}
                 title={title}
             />
         </Card>
