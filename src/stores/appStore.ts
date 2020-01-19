@@ -27,7 +27,8 @@ class AppStore extends Store<AppState> {
                 map(albums => {
                     this.store = {
                         ...this.store,
-                        albums: albums
+                        albums: albums,
+                        query: query
                     };
                     return this.store;
                 })

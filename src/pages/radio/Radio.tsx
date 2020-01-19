@@ -1,41 +1,39 @@
-import { Subscription } from 'rxjs';
+import { Subscription, iif, of } from 'rxjs';
 import React, { Component } from 'react';
 import Card from '../../components/Card/mediaCard';
 import { AlbumsService } from '../../stores/appStore';
+import { switchMap } from 'rxjs/operators';
+import { AppState } from '../../stores/appState';
+import { RadioI } from '../../models/radio'
 
 
 class Radio extends Component {
 
     state = {
-        data: [
-            {
-                title: "",
-                preview: "",
-                artist: {
-                    name: ""
-                },
-                album: {
-                    cover_medium: ""
-                }
-            }
-        ],
-        query: ""
+        data: []
     }
 
     sub: Subscription = new Subscription();
 
     componentDidMount() {
-        
+        this.sub = AlbumsService.$store
+            .pipe(
+                switchMap((state: AppState) => {
+                    const $fetch = AlbumsService.$fetchRadio();
+                    return iif(() => state.radio.length <= 0, $fetch, of(state))
+                })
+            )
+            .subscribe((state: AppState) => this.setState({ data: state.radio }))
     }
 
     render() {
         return (
             <div>
-                <h1>Radio</h1>
                 <main className="container">
+                    <h1>Radio</h1>
                     {
-                        this.state.data.map((card, i) => {
-                            return <Card key={i} title={card.title} artist={card.artist.name} image={card.album.cover_medium}>
+                        this.state.data.map((card: RadioI, i) => {
+                            return <Card key={i} title={card.title} artist="Radio" image={card.picture_medium}>
                             </Card>
                         })
                     }

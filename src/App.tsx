@@ -44,7 +44,7 @@ class App extends Component {
           <div>
             <Navbar title="Music Share">
               <li>
-                <Search value="search" output={this.searchInput} />
+                <Search output={this.searchInput} />
               </li>
               <li>
                 <Link to="/">Albums</Link>

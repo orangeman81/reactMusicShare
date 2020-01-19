@@ -15,7 +15,7 @@ class Albums extends Component {
     componentDidMount() {
         this.sub = AlbumsService.$store
             .subscribe(state => {
-                if (state.albums != []) {
+                if (state.albums !== []) {
                     this.setState({ data: state.albums })
                 }
             });
