@@ -1,13 +1,23 @@
 import React, { Component } from 'react';
-import Card from '../../components/Card/AlbumCard';
+import Card from '../../components/Card/mediaCard';
 import { AlbumsService } from '../../stores/appStore';
 import { Subscription } from 'rxjs';
 import { AlbumsI } from '../../models/albums'
 
-class Albums extends Component {
+class Details extends Component {
+    paramsId: number = Number((this.props as any).match.params['id']);
 
     state = {
-        data: []
+        data: {
+            id: 0,
+            title: "",
+            artist: {
+                name: ""
+            },
+            album: {
+                cover_medium: "some"
+            }
+        }
     };
 
     sub: Subscription = new Subscription();
@@ -16,7 +26,8 @@ class Albums extends Component {
         this.sub = AlbumsService.$store
             .subscribe(state => {
                 if (state.albums !== []) {
-                    this.setState({ data: state.albums })
+                    const details: AlbumsI | undefined = state.albums.find(album => album.id === this.paramsId);
+                    this.setState({ data: details });
                 }
             });
     }
@@ -26,12 +37,8 @@ class Albums extends Component {
             <div>
                 <main className="container">
                     <section className="row">
-                        {
-                            this.state.data.map((card: AlbumsI, i) => {
-                                return <Card key={card.id} id={card.id} title={card.title} artist={card.artist.name} image={card.album.cover_medium}>
-                                </Card>
-                            })
-                        }
+                        <Card title={this.state.data.title} artist={this.state.data.artist.name} image={this.state.data.album.cover_medium}>
+                        </Card>
                     </section>
                 </main>
             </div>
@@ -44,4 +51,4 @@ class Albums extends Component {
 
 }
 
-export default Albums;
+export default Details;

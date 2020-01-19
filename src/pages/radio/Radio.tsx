@@ -31,12 +31,14 @@ class Radio extends Component {
             <div>
                 <main className="container">
                     <h1>Radio</h1>
-                    {
-                        this.state.data.map((card: RadioI, i) => {
-                            return <Card key={i} title={card.title} artist="Radio" image={card.picture_medium}>
-                            </Card>
-                        })
-                    }
+                    <section className="row">
+                        {
+                            this.state.data.map((card: RadioI, i) => {
+                                return <Card key={i} title={card.title} artist="Radio" image={card.picture_medium}>
+                                </Card>
+                            })
+                        }
+                    </section>
                 </main>
             </div>
         );

@@ -1,4 +1,5 @@
 export interface AlbumsI {
+    id: number;
     title: string;
     preview: string;
     artist: {

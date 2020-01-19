@@ -14,6 +14,7 @@ import Radio from './pages/radio/Radio';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { Subscription, Subject } from 'rxjs';
 import { AlbumsService } from './stores/appStore'
+import Details from './pages/albums/Details';
 
 class App extends Component {
 
@@ -54,12 +55,9 @@ class App extends Component {
               </li>
             </Navbar>
             <Switch>
-              <Route path="/" exact>
-                <Albums />
-              </Route>
-              <Route path="/radio" exact>
-                <Radio />
-              </Route>
+              <Route path="/" exact component={Albums} />
+              <Route path="/radio" exact component={Radio} />
+              <Route path="/:id" exact component={Details} />
             </Switch>
           </div>
         </Router>
